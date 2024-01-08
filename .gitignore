@@ -1,0 +1,21 @@
+# Unity specific files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Pp]ackages/
+[Pp]rojectSettings/
+[Uu]serSettings/
+
+# Mono Auto Generated Files
+[Mm]ono/
+[Aa]ssets/(MonoBleedingEdge|Plugins)/
+
+# Unity3D Generated Files
+*.pidb
+*.pdb
+
+# Visual Studio Code directory
+.vscode/
