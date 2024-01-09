@@ -6,6 +6,7 @@
 /[Pp]rojectSettings/
 /[Uu]serSettings/
 /Assets/AssetStoreTools*
+/[Ll]ogs/
 
 # Visual Studio 2015 cache directory
 /.vs/
@@ -34,3 +35,4 @@ sysinfo.txt
 
 # Builds
 *.apk
+Logs
