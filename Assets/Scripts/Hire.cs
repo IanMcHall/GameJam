@@ -12,8 +12,6 @@ public class Hire : MonoBehaviour
     public Character Character;
     // "Profession": Stores profession information
     public Profession Profession { get; set; }
-    // "Faction": Stores faction alignment
-    public Faction Faction { get; set; }
     // "Rank": Substitute for a numeric level system
     public int Rank { get; set; }
     // "XPCurrent/XPToLevel": How much XP the hire currently has and how much until they reach their next Rank Up
