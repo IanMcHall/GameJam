@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Sidebar : MonoBehaviour
 {
@@ -15,31 +16,42 @@ public class Sidebar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
+        //if its the title screen then doesn't allow the pause to be used
+        if (SceneManager.GetActiveScene().name != "TitleScreen")
         {
-            TogglePause();
+            if (Input.GetButtonDown("Cancel"))
+            {
+                TogglePause();
+            }
         }
+
     }
 
     public void TogglePause()
     {
+        //toggles pause variable
         IsPaused = !IsPaused;
 
         if (IsPaused)
         {
+            //insert soundFX here
+
             Time.timeScale = 0f;
 
             Debug.Log("Game Paused");
 
-            animator.SetBool("IsPaused", false);
+            animator.SetBool("IsPaused", true);
         }
         else
         {
+            //insert soundFX here
+
+
             Time.timeScale = 1f;
 
             Debug.Log("Game Resumed");
 
-            animator.SetBool("IsPaused", true);
+            animator.SetBool("IsPaused", false);
         }
     }
 }
