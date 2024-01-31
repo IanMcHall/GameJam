@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HirePerk : MonoBehaviour
 {
-    public string GroupId {get;set;}
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public List<Keyword> Keywords { get; set; }
+    public string GroupId;
+    public string Name;
+    public string Description;
+    public List<Keyword> Keywords;
 }

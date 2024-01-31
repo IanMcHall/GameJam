@@ -2,19 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    public Hire hire;
-
-    private void Awake()
-    {
-   
-    }
+    public float PlayerTotalXP;
+    public int PlayerGold;
+    public int PlayerRank;
+    public float PlayerStamina;
 
     // Start is called before the first frame update
     void Start()
     {
-      
+        
     }
 
     // Update is called once per frame
