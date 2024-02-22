@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CardBehaviour : MonoBehaviour
 {
+    [SerializeField]
+    public JobManager JobManager;
     public GameObject selectedObject;
     private Vector3 offset;
 
@@ -11,6 +13,7 @@ public class CardBehaviour : MonoBehaviour
 
     void Start()
     {
+        JobManager = FindAnyObjectByType<JobManager>();
         // Store the original position when the script starts
         originalPosition = transform.position;
     }
@@ -47,6 +50,10 @@ public class CardBehaviour : MonoBehaviour
                 {
                     // Snap to the slot's position
                     selectedObject.transform.position = slotCollider.transform.position;
+
+                    //set as currently slotted card
+                    JobManager.SlottedHire = selectedObject;
+                    
 
                     Debug.Log("Card snapped to slot!");
                 }

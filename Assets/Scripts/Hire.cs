@@ -59,9 +59,9 @@ public class Hire : MonoBehaviour
     private void InitializeHire()
     {
    
-        Character = gameObject.GetComponent<Character>();
+        Character = gameObject.GetComponentInChildren<Character>();
 
-        Profession = gameObject.GetComponent<Profession>();
+        Profession = gameObject.GetComponentInChildren<Profession>();
 
         Rank = 0;
 

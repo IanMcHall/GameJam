@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JobManager : MonoBehaviour
 {
+    public GameObject SlottedHire;
     
 
     // Start is called before the first frame update
@@ -15,7 +16,20 @@ public class JobManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GenerateJob();
+        }
 
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            RetrieveHire();
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SimulateJob(GenerateJob(), RetrieveHire());
+        }
     }
 
     public bool SimulateJob(Job job, Hire hire)
@@ -41,7 +55,7 @@ public class JobManager : MonoBehaviour
         }
     }
 
-    public void GenerateJob()
+    public Job GenerateJob()
     {
         Job job = gameObject.AddComponent<Job>();
 
@@ -53,6 +67,40 @@ public class JobManager : MonoBehaviour
         job.UpFrontPercentage = job.TotalBudget * job.TurnsToCompletion * .1f;
         job.Progress = 0;
 
-        
+        return job;
+    }
+
+    public Hire RetrieveHire()
+    {
+        try
+        {
+            if (SlottedHire != null)
+            {
+                var hire = SlottedHire.GetComponentInChildren<Hire>();
+
+                if(hire != null)
+                {
+                    return hire;
+                }
+                else
+                {
+                    Debug.Log("Hire not found on card");
+
+                    return null;
+                }
+            }
+            else
+            {
+                Debug.Log("No card slotted");
+
+                return null;
+            }
+            
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("Hire could not be retrieved.");
+            throw;
+        }
     }
 }
