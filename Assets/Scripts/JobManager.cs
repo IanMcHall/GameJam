@@ -1,72 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class JobManager : MonoBehaviour
 {
-    public GameObject SlottedHire;
+    public GameObject jobPrefab;
+    public CardSlot CardSlot;
+    public Hire hire;
+    public List<Job> jobs;
+    public Job CurrentJob;
     
 
     // Start is called before the first frame update
     void Start()
     {
-
+        CardSlot = GetComponentInChildren<CardSlot>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            GenerateJob();
-        }
-
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             RetrieveHire();
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            SimulateJob(GenerateJob(), RetrieveHire());
+           var job = GenerateJob();
+
+            Debug.Log(job.MainSkill.Name);
+
+            SimulateJob(CurrentJob, hire);
         }
     }
 
-    public bool SimulateJob(Job job, Hire hire)
+    public void SimulateJob(Job job, Hire hire)
     {
+        var result = PerformSkillCheck(hire, job);
 
-        //Checks if Hires stats meet the requirements of the job
-       if (hire.Profession.Strength >= job.StrengthRequirement &&
-            hire.Profession.Intelligence >= job.IntelligenceRequirement &&
-            hire.Profession.Dexterity >= job.DexterityRequirement &&
-            hire.Profession.Constitution >= job.ConstitutionRequirement &&
-            hire.Profession.Wisdom >= job.WisdomRequirement &&
-            hire.Profession.Charisma >= job.CharismaRequirement)
+        if (result == true)
         {
-            Debug.Log("Hire meets job requirements!");
+            Debug.Log("Completed!");
+        } else { Debug.Log("Failed"); }
 
-            return true;
-        }
-        else
-        {
-            Debug.Log("Hire does not meet job requirements");
-
-            return false;
-        }
     }
 
     public Job GenerateJob()
     {
-        Job job = gameObject.AddComponent<Job>();
+        GameObject jobObject = Instantiate(jobPrefab, transform);
+        Job job = jobObject.AddComponent<Job>();
+        
 
-
-        job.XPGain = 14;
-        job.StaminaMinimum = 1;
-        job.TurnsToCompletion = 1;
-        job.TotalBudget = Random.Range(1, 10);
+        job.XPGain = Random.Range(1,11);
+        job.StaminaMinimum = Random.Range(1, 11); ;
+        job.TurnsToCompletion = Random.Range(1, 11); ;
+        job.TotalBudget = Random.Range(1, 11);
         job.UpFrontPercentage = job.TotalBudget * job.TurnsToCompletion * .1f;
-        job.Progress = 0;
+        job.SelectMainSkill();
+        
+        jobs.Add(job);
 
+        CurrentJob = job;
+        
         return job;
     }
 
@@ -74,20 +72,11 @@ public class JobManager : MonoBehaviour
     {
         try
         {
-            if (SlottedHire != null)
+            if (CardSlot.SlottedHire != null)
             {
-                var hire = SlottedHire.GetComponentInChildren<Hire>();
+                hire = CardSlot.SlottedHire;
 
-                if(hire != null)
-                {
-                    return hire;
-                }
-                else
-                {
-                    Debug.Log("Hire not found on card");
-
-                    return null;
-                }
+                return hire;
             }
             else
             {
@@ -103,4 +92,53 @@ public class JobManager : MonoBehaviour
             throw;
         }
     }
+
+    //performs a skill check on the skill entered.
+    public bool PerformSkillCheck(Hire hire, Job job)
+    {
+        int roll = RollDice();
+        int total = 0;
+
+        var skill = job.MainSkill;
+
+        //takes the value of roll and adds it to the hire's stats to determine if passing
+        switch (skill.Name.ToLower())
+        {
+            case "strength":
+                total = roll + hire.Profession.STR;
+                return total >= job.MainSkill.Value;
+
+            case "dexterity":
+                total = roll + hire.Profession.DEX;
+                return total >= job.MainSkill.Value;
+
+            case "intelligence":
+                total = roll + hire.Profession.INT;
+                return total >= job.MainSkill.Value;
+
+            case "constitution":
+                total = roll + hire.Profession.CON;
+                return total >= job.MainSkill.Value;
+
+            case "wisdom":
+                total = roll + hire.Profession.WIS;
+                return total >= job.MainSkill.Value;
+
+            case "charisma":
+                total = roll + hire.Profession.CHA;
+                return total >= job.MainSkill.Value;
+
+            default:
+                Debug.Log($"Unknown skill: {skill}");
+                return false;
+        }
+    }
+
+    //Simulates a D20 roll
+    private int RollDice()
+    {
+        return Random.Range(1, 11);
+    }
+
+    
 }

@@ -68,7 +68,6 @@ public class CSVNameImporter : MonoBehaviour
             {
                 ShuffleList(names);
                 string randomName = RandomItem(names);
-                Debug.Log($"Random Name: {randomName}, Gender: {randomGender}");
 
                 return (randomName, randomGender);
             }

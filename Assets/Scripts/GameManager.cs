@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Started");
-        ChangeScene("Gameplay");
+        ChangeScene("GameplayV2");
     }
 
     public void OpenOptions()

@@ -33,14 +33,33 @@ public class Job : MonoBehaviour
     // Bob then rolls x-d(y), x = the number of points Bob beat the Bear's roll by, and y = Bob's Dexterity stat (or, 4d5). We then remove (4d5 + (Progress/5)) from the Progress value.
     // If Progress == 0, job done; if not, roll again
     // If Bob did NOT pass the initial check against the Bear, then the bear does damage to the Hire's HP for (1+Rank-d(Strength*Rank))
-    public int StrengthRequirement;
-    public int IntelligenceRequirement;
-    public int DexterityRequirement;
-    public int ConstitutionRequirement;
-    public int WisdomRequirement;
-    public int CharismaRequirement;    
-    List<Keyword> ActionKeywords { get; set; }
-    List<Keyword> LocationKeywords { get; set; }
-    List<Keyword> TargetKeywords { get; set; }
-    List<Keyword> RequiredKeywords { get; set; }
+
+    public Skill MainSkill;
+
+    List<Keyword> ActionKeywords;
+    List<Keyword> LocationKeywords;
+    List<Keyword> TargetKeywords;
+    List<Keyword> RequiredKeywords;
+    List<Skill> Skills;
+
+    private void Awake()
+    {
+        Skills = new List<Skill>();
+
+        Skills.Add(new Skill { Name = "Strength", Description = "Represents the physical power and muscular capabilities of a character, enabling them to perform feats requiring brute force, endurance, and raw might." });
+        Skills.Add(new Skill { Name = "Intelligence", Description = "Reflects a character's cognitive abilities, such as reasoning, memory, problem-solving, and learning capacity, allowing them to navigate complex situations and understand intricate concepts with greater ease." });
+        Skills.Add(new Skill { Name = "Dexterity", Description = "Denotes a character's agility, finesse, and quickness, determining their skill in performing delicate tasks, hand-eye coordination, and swift movements during combat or stealth situations." });
+        Skills.Add(new Skill { Name = "Constitution", Description = "Encompasses a character's physical resilience, vitality, and endurance, determining their ability to withstand injuries, fatigue, and environmental hazards while maintaining overall health and stamina." });
+        Skills.Add(new Skill { Name = "Wisdom", Description = "Signifies a character's intuition, perception, and understanding of their surroundings, enabling them to make wise decisions, perceive hidden details, and interact with nature or divine forces." });
+        Skills.Add(new Skill { Name = "Charisma", Description = "Represents a character's personal magnetism, persuasiveness, and ability to influence others, allowing them to lead effectively, negotiate favorable outcomes, and manipulate social situations." });
+    }
+
+    public Skill SelectMainSkill()
+    {
+        MainSkill = Skills[(Random.Range(0, 6))];
+        MainSkill.Value = Random.Range(1, 11);
+
+        return MainSkill;
+    }
+
 }

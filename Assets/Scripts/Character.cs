@@ -13,7 +13,7 @@ namespace DefaultNamespace
         public Faction Faction;
         public CSVNameImporter nameGenerator;
 
-        void Start()
+        void Awake()
         {
             InitializeCharacter();
         }
@@ -24,7 +24,6 @@ namespace DefaultNamespace
             if (nameGenerator != null)
             {
                 (Name, Gender) = nameGenerator.GenerateRandomName();
-                Debug.Log($"{Name} {Gender} from the character class");
             }
             else
             {

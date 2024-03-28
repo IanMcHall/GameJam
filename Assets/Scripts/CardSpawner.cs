@@ -18,13 +18,14 @@ public class CardSpawner : MonoBehaviour
         }
     }
 
-    public List<Card> SpawnCards()
+    public void SpawnCards()
     {
         var cards = new List<Card>();
+        RectTransform canvasRectTransform = GameObject.Find("Canvas").GetComponent<RectTransform>();
 
         foreach (var spawnPoint in SpawnPoints)
         {
-            if (totalSpawnedCards >= 8)
+            if (totalSpawnedCards >= 3)
             {
                 Debug.Log("Card limit reached. Cannot spawn new cards");
                 canSpawn = false;  // Set to false to prevent further spawning
@@ -35,7 +36,11 @@ public class CardSpawner : MonoBehaviour
 
             // Insert SoundFX here
 
-            GameObject cardObject = Instantiate(cardPrefab, spawnPoint.position, Quaternion.identity);
+            GameObject cardObject = Instantiate(cardPrefab, canvasRectTransform);
+            Vector3 spawnPosition = canvasRectTransform.InverseTransformPoint(spawnPoint.position);
+            Vector3 cardPosition = canvasRectTransform.TransformPoint(spawnPosition);
+            cardObject.transform.position = cardPosition;
+            cardObject.transform.rotation = spawnPoint.rotation;
 
             Card cardComponent = cardObject.GetComponent<Card>();
 
@@ -46,7 +51,5 @@ public class CardSpawner : MonoBehaviour
                 totalSpawnedCards++;  // Increment the total spawned cards
             }
         }
-
-        return cards;
     }
 }
